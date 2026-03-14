@@ -29,6 +29,12 @@ const slug = Astro.params.slug?.toUpperCase() || 'BURN'
 	justify-content: center;
 }
 
+@media (max-width: 768px) {
+	.con {
+		font-size: 12vw;
+	}
+}
+
 .text {
 	width: 100%;
 	text-align: center;

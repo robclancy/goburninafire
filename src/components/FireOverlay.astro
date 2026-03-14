@@ -3,10 +3,23 @@
 
 <style>
 #fire-video { display: none }
+
+#fire-canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  pointer-events: none;
+  object-fit: cover;
+}
 </style>
 
 <video id="fire-video" src="/fire2.mp4" loop muted playsinline></video>
-<canvas id="fire-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></canvas>
+<canvas id="fire-canvas"></canvas>
 
 <script>
 import GLChroma from 'gl-chromakey'
