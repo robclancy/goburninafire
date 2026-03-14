@@ -74,7 +74,7 @@ const slug = Astro.params.slug?.toUpperCase() || 'BURN'
 }
 </style>
 
-<Layout>
+<Layout title={slug}>
 	<div class="burn">
 		<div class="con">
 			<div class="text">{slug}</div>
