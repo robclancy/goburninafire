@@ -1,0 +1,50 @@
+---
+---
+
+<style>
+#fire-video { display: none }
+</style>
+
+<video id="fire-video" src="/fire2.mp4" loop muted playsinline></video>
+<canvas id="fire-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></canvas>
+
+<script>
+import GLChroma from 'gl-chromakey'
+
+const video = document.getElementById("fire-video")
+const canvas = document.getElementById("fire-canvas")
+
+const chroma = new GLChroma(video, canvas)
+chroma.key({
+	color: 'auto',
+	tolerance: 0.3,
+	smoothness: 0.3,
+	spill: 0,
+})
+
+let frameId
+
+// methods for render loop
+const startChroma = () => {
+  frameId = requestAnimationFrame(startChroma)
+  chroma.render()
+}
+const stopChroma = () => cancelAnimationFrame(frameId)
+
+// follow <video> element events
+video.addEventListener('play', startChroma)
+video.addEventListener('pause', stopChroma)
+video.addEventListener('ended', stopChroma)
+
+let started = false
+function start() {
+    if (started) return;
+    started = true;
+    video.play().then(() => requestAnimationFrame(frame)).catch(console.error);
+  }
+
+  video.load();
+  start();
+  document.addEventListener('click', start, { once: true });
+  document.addEventListener('touchstart', start, { once: true });
+</script>

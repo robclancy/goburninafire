@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FireOverlay from '../components/FireOverlay.astro';
+
+const slug = Astro.params.slug?.toUpperCase() || 'BURN'
+---
+
+<style>
+
+.burn {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background: #040404;
+}
+
+.fire {
+	position: fixed;
+	inset: 0;
+}
+
+.con {
+	font-size: 50px;
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 25vh;
+	display: flex;
+	align-items: center;
+}
+
+.text {
+	color: #fdfdfd;
+	color: orange;
+	width: 100%;
+	text-align: center;
+	font-family: sans-serif;
+}
+</style>
+
+<Layout>
+	<div class="burn">
+		<div class="con">
+			<div class="text">{slug}</div>
+		</div>
+		<div class="fire">
+			<FireOverlay />
+		</div>
+	</div>
+</Layout>
