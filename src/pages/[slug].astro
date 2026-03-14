@@ -6,7 +6,6 @@ const slug = Astro.params.slug?.toUpperCase() || 'BURN'
 ---
 
 <style>
-
 .burn {
 	position: relative;
 	width: 100%;
@@ -20,21 +19,58 @@ const slug = Astro.params.slug?.toUpperCase() || 'BURN'
 }
 
 .con {
-	font-size: 50px;
+	font-size: 80px;
 	position: fixed;
 	left: 0;
 	right: 0;
 	bottom: 25vh;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 }
 
 .text {
-	color: #fdfdfd;
-	color: orange;
 	width: 100%;
 	text-align: center;
-	font-family: sans-serif;
+	font-family: 'Impact', sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: #ffdd00;
+	animation: burn 0.4s infinite alternate;
+	text-shadow: 
+		0 0 10px #ff6600,
+		0 0 20px #ff4400,
+		0 0 40px #ff2200,
+		0 0 80px #ff0000,
+		2px 2px 0 #440000,
+		-2px -2px 0 #440000;
+}
+
+@keyframes burn {
+	0% {
+		transform: scaleY(1);
+		text-shadow: 
+			0 0 10px #ff6600,
+			0 0 20px #ff4400,
+			0 0 40px #ff2200,
+			0 0 80px #ff0000;
+	}
+	50% {
+		transform: scaleY(1.02);
+		text-shadow: 
+			0 0 12px #ff7700,
+			0 0 25px #ff5500,
+			0 0 50px #ff3300,
+			0 0 90px #ff1100;
+	}
+	100% {
+		transform: scaleY(0.98);
+		text-shadow: 
+			0 0 8px #ff5500,
+			0 0 18px #ff3300,
+			0 0 35px #ff1100,
+			0 0 70px #cc0000;
+	}
 }
 </style>
 

@@ -8,9 +8,18 @@ import Analytics from '@vercel/analytics/astro'
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		
+		<title>Go Burn in a Fire</title>
+		<meta name="description" content="Burn!" />
+		
+		<meta property="og:title" content="Go Burn in a Fire" />
+		<meta property="og:description" content="Burn!" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Go Burn in a Fire" />
+		<meta name="twitter:description" content="Burn!" />
 	</head>
 	<body>
 		<slot />
