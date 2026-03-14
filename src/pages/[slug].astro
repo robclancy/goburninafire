@@ -3,87 +3,211 @@ import Layout from '../layouts/Layout.astro';
 import FireOverlay from '../components/FireOverlay.astro';
 
 const slug = Astro.params.slug?.toUpperCase() || 'BURN'
+const isTwitterHandle = Astro.params.slug?.startsWith('@') || false
+const twitterUsername = isTwitterHandle ? Astro.params.slug?.slice(1).toLowerCase() : null
+const avatarUrl = twitterUsername ? `https://unavatar.io/twitter/${twitterUsername}` : null
 ---
 
 <style>
-.burn {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	background: #040404;
-}
-
-.fire {
-	position: fixed;
-	inset: 0;
-}
-
-.con {
-	font-size: 80px;
-	position: fixed;
-	left: 0;
-	right: 0;
-	bottom: 25vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-@media (max-width: 768px) {
-	.con {
-		font-size: 12vw;
+	.burn {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		background: #040404;
 	}
-}
 
-.text {
-	width: 100%;
-	text-align: center;
-	font-family: 'Impact', sans-serif;
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	color: #ffdd00;
-	animation: burn 0.4s infinite alternate;
-	text-shadow: 
-		0 0 10px #ff6600,
-		0 0 20px #ff4400,
-		0 0 40px #ff2200,
-		0 0 80px #ff0000,
-		2px 2px 0 #440000,
-		-2px -2px 0 #440000;
-}
+	.fire {
+		position: fixed;
+		inset: 0;
+	}
 
-@keyframes burn {
-	0% {
-		transform: scaleY(1);
+	.con {
+		font-size: 80px;
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 25vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	@media (max-width: 768px) {
+		.con {
+			font-size: 12vw;
+		}
+	}
+
+	.text {
+		width: 100%;
+		text-align: center;
+		font-family: 'Impact', sans-serif;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: #ffdd00;
+		animation: burn 0.4s infinite alternate;
 		text-shadow: 
 			0 0 10px #ff6600,
 			0 0 20px #ff4400,
 			0 0 40px #ff2200,
-			0 0 80px #ff0000;
+			0 0 80px #ff0000,
+			2px 2px 0 #440000,
+			-2px -2px 0 #440000;
 	}
-	50% {
-		transform: scaleY(1.02);
+
+	.avatar-container {
+		position: relative;
+		width: 200px;
+		height: 200px;
+	}
+
+	@media (max-width: 768px) {
+		.avatar-container {
+			width: 35vw;
+			height: 35vw;
+		}
+	}
+
+	.avatar-wrapper {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		clip-path: polygon(5% 2%, 35% 4%, 65% 1%, 95% 3%, 98% 35%, 96% 65%, 99% 95%, 65% 98%, 35% 96%, 2% 99%, 4% 65%, 1% 35%);
+		-webkit-clip-path: polygon(5% 2%, 35% 4%, 65% 1%, 95% 3%, 98% 35%, 96% 65%, 99% 95%, 65% 98%, 35% 96%, 2% 99%, 4% 65%, 1% 35%);
+		filter: drop-shadow(0 0 8px rgba(139, 69, 19, 0.8)) drop-shadow(0 0 4px rgba(255, 100, 0, 0.6));
+	}
+
+.avatar {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: sepia(20%) brightness(0.97);
+		animation: avatarPulse 0.3s infinite alternate;
+	}
+
+	.burn-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to bottom, 
+			transparent 0%, 
+			transparent 45%, 
+			rgba(80,30,0,0.22) 65%, 
+			rgba(40,15,0,0.45) 80%, 
+			rgba(20,5,0,0.7) 100%);
+		pointer-events: none;
+		mix-blend-mode: multiply;
+		animation: burnProgress 5s infinite alternate;
+	}
+
+	.burn-edge {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		border-radius: 12px;
+	}
+
+	.burn-edge::before {
+		content: '';
+		position: absolute;
+		inset: -4px;
+		background: radial-gradient(ellipse at 50% 95%, rgba(255,100,0,0.75) 0%, transparent 35%),
+					radial-gradient(ellipse at 15% 85%, rgba(255,80,0,0.65) 0%, transparent 30%),
+					radial-gradient(ellipse at 85% 85%, rgba(255,80,0,0.65) 0%, transparent 30%),
+					radial-gradient(ellipse at 25% 95%, rgba(255,120,0,0.6) 0%, transparent 40%),
+					radial-gradient(ellipse at 75% 95%, rgba(255,120,0,0.6) 0%, transparent 40%),
+					radial-gradient(ellipse at 5% 50%, rgba(255,70,0,0.4) 0%, transparent 25%),
+					radial-gradient(ellipse at 95% 50%, rgba(255,70,0,0.4) 0%, transparent 25%);
+		animation: emberInner 0.25s infinite alternate;
+		mix-blend-mode: screen;
+	}
+
+	.burn-edge::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		box-shadow: inset 0 0 22px 12px rgba(255,80,0,0.4),
+					inset 0 0 45px 22px rgba(255,40,0,0.3);
+		animation: emberInner 0.2s infinite alternate;
+		mix-blend-mode: screen;
+	}
+
+	@keyframes avatarPulse {
+		0% { filter: sepia(20%) brightness(0.97); }
+		100% { filter: sepia(22%) brightness(0.95); }
+	}
+
+	@keyframes burnProgress {
+		0% {
+			background: linear-gradient(to bottom, 
+				transparent 0%, 
+				transparent 45%, 
+				rgba(80,30,0,0.22) 65%, 
+				rgba(40,15,0,0.45) 80%, 
+				rgba(20,5,0,0.7) 100%);
+		}
+		100% {
+			background: linear-gradient(to bottom, 
+				transparent 0%, 
+				transparent 40%, 
+				rgba(90,35,0,0.28) 60%, 
+				rgba(50,20,0,0.5) 78%, 
+				rgba(25,8,0,0.75) 100%);
+		}
+	}
+
+	@keyframes emberInner {
+		0% { opacity: 0.8; }
+		100% { opacity: 1; }
+	}
+
+	@keyframes burn {
+		0% {
+			transform: scaleY(1);
+		}
+		50% {
+			transform: scaleY(1.02);
+		}
+		100% {
+			transform: scaleY(0.98);
+		}
+	}
+
+	.handle {
+		font-size: 16px;
+		margin-top: 12px;
+		font-family: 'Impact', sans-serif;
+		text-transform: lowercase;
+		letter-spacing: 0.05em;
+		color: #ffdd00;
+		animation: burn 0.4s infinite alternate;
 		text-shadow: 
-			0 0 12px #ff7700,
-			0 0 25px #ff5500,
-			0 0 50px #ff3300,
-			0 0 90px #ff1100;
+			0 0 8px #ff6600,
+			0 0 16px #ff4400,
+			0 0 32px #ff2200,
+			0 0 64px #ff0000;
 	}
-	100% {
-		transform: scaleY(0.98);
-		text-shadow: 
-			0 0 8px #ff5500,
-			0 0 18px #ff3300,
-			0 0 35px #ff1100,
-			0 0 70px #cc0000;
-	}
-}
 </style>
 
 <Layout title={slug}>
 	<div class="burn">
 		<div class="con">
-			<div class="text">{slug}</div>
+			{isTwitterHandle && avatarUrl ? (
+				<div class="avatar-container">
+					<div class="avatar-wrapper">
+						<img 
+							class="avatar" 
+							src={avatarUrl} 
+							alt={`@${twitterUsername}`}
+							onerror="this.closest('.avatar-container').style.display='none'; document.querySelector('.text').style.display='block';"
+						/>
+						<div class="burn-overlay"></div>
+						<div class="burn-edge"></div>
+					</div>
+					<div class="handle">@{twitterUsername}</div>
+				</div>
+			) : null}
+			<div class="text" style={isTwitterHandle && avatarUrl ? 'display:none;' : ''}>{slug}</div>
 		</div>
 		<div class="fire">
 			<FireOverlay />
